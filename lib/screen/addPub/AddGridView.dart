@@ -16,6 +16,7 @@ class MyListPage extends StatefulWidget {
 
 class _MyListPageState extends State<MyListPage> {
 
+
   TextEditingController phoneInputController;
   TextEditingController nameInputController;
   final db = Firestore.instance;
@@ -24,6 +25,7 @@ class _MyListPageState extends State<MyListPage> {
   String name;
   String phone;
   String address;
+  bool visible = false;
 
 
   navigateToInfo(DocumentSnapshot ds) {
@@ -34,6 +36,17 @@ class _MyListPageState extends State<MyListPage> {
               ds: ds,
             )));
   }
+  @override
+  void setState(fn) {
+    print("girdi");
+    _sorgula();
+    super.setState(fn);
+  }
+  @override
+  void initState() {
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +57,9 @@ class _MyListPageState extends State<MyListPage> {
         title: Text('Pub Cafeler',style: TextStyle(color: Colors.black),),
       ),
       body: StreamBuilder(
-        stream: Firestore.instance.collection("colrecipes").snapshots(),
+        stream: db.collection("colrecipes").where("visible",isEqualTo: true).snapshots() ,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData ) {
             return CircularProgressIndicator();
           }
           int length = snapshot.data.documents.length;
@@ -114,5 +127,9 @@ class _MyListPageState extends State<MyListPage> {
         },
       ),
     );
+  }
+  void _sorgula() async{
+    print("girdi");
+    db.collection("colrecipes").where("visible", isEqualTo: true).getDocuments();
   }
 }

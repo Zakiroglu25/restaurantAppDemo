@@ -39,6 +39,7 @@ class _SetPageState extends State<SetPage> {
       body: StreamBuilder(
         stream: Firestore.instance.collection("set").snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
           if (!snapshot.hasData) {
             return CircularProgressIndicator();
           }

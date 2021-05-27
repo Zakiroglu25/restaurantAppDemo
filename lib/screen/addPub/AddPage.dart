@@ -4,7 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart'; //formateo hora
+import 'package:intl/intl.dart';
+
+import '../../main.dart'; //formateo hora
 
 File image;
 String filename;
@@ -22,6 +24,7 @@ class _MyAddPageState extends State<MyAddPage> {
   TextEditingController recipeInputController;
   TextEditingController nameInputController;
   TextEditingController imageInputController;
+  bool _isDialogShowing = false;
 
   String id;
   final db = Firestore.instance;
@@ -68,7 +71,7 @@ class _MyAddPageState extends State<MyAddPage> {
     var fullImageName2 = 'nomfoto-$nuevoformato' + '.jpg';
 
     final StorageReference ref =
-        FirebaseStorage.instance.ref().child(fullImageName);
+    FirebaseStorage.instance.ref().child(fullImageName);
     final StorageUploadTask task = ref.putFile(image);
 
     var part1 =
@@ -88,15 +91,15 @@ class _MyAddPageState extends State<MyAddPage> {
         'visible': '$visible',
         'image': '$fullPathImage'
       });
-      setState(() => id);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyListPage()));
+
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    CommonThings.size = MediaQuery.of(context).size;
+    CommonThings.size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
       appBar: AppBar(
@@ -132,7 +135,10 @@ class _MyAddPageState extends State<MyAddPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -152,7 +158,10 @@ class _MyAddPageState extends State<MyAddPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -172,7 +181,10 @@ class _MyAddPageState extends State<MyAddPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -192,7 +204,10 @@ class _MyAddPageState extends State<MyAddPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -212,7 +227,10 @@ class _MyAddPageState extends State<MyAddPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -227,7 +245,10 @@ class _MyAddPageState extends State<MyAddPage> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -249,10 +270,14 @@ class _MyAddPageState extends State<MyAddPage> {
                 padding: const EdgeInsets.fromLTRB(0, 22, 0, 0),
                 child: SizedBox(
                   height: 60,
-                  width: MediaQuery.of(context).size.width / 1.7,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 1.7,
                   child: RaisedButton(
                     onPressed: () {
                       createData();
+                      _showDialog();
                       //  Navigator.push(context, MaterialPageRoute(builder: (context)=> MapPage()));
                     },
                     color: Colors.black,
@@ -271,6 +296,30 @@ class _MyAddPageState extends State<MyAddPage> {
           )
         ],
       ),
+    );
+  }
+
+  void _showDialog() {
+    _isDialogShowing = true; // set it `true` since dialog is being displayed
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Elaniniz yoxlanimasi ucun Qeyde Alind"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Elani Yersleshdir"),
+              onPressed: () {
+                _isDialogShowing = false; // set it `false` since dialog
+                Navigator.of(context).pop();
+                setState(() => id);
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => MyApp()));
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }

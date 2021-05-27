@@ -22,6 +22,7 @@ class _MyInfoPageState extends State<MyInfoPage> {
   String name;
   String recipe;
   String phone_number;
+  bool visible;
 
 
   var kabinet = false;

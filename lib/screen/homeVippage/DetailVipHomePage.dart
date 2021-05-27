@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'mapVip.dart';
 
 class HomePageDetail extends StatefulWidget {
   final DocumentSnapshot restaurant;
@@ -157,7 +160,7 @@ class _HomePageDetailState extends State<HomePageDetail> {
                               width: MediaQuery.of(context).size.width / 1.7,
                               child: RaisedButton(
                                 onPressed: () {
-                                  //   Navigator.push(context, MaterialPageRoute(builder: (context)=> MyHomePage()));
+                                     Navigator.push(context, MaterialPageRoute(builder: (context)=> MapsPage()));
                                 },
                                 color: Colors.black,
                                 elevation: 2,
@@ -177,6 +180,7 @@ class _HomePageDetailState extends State<HomePageDetail> {
                               height: 60,
                               child: RaisedButton(
                                 onPressed: () {
+                                  launch(widget.restaurant["res_phone_number"]);
                                   //  Navigator.push(context, MaterialPageRoute(builder: (context)=> MapPage()));
                                   print("basildi");
                                 },
