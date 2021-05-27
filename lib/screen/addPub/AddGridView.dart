@@ -9,6 +9,7 @@ class CommonThings {
   static Size size;
 }
 
+
 class MyListPage extends StatefulWidget {
   @override
   _MyListPageState createState() => _MyListPageState();
